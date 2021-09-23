@@ -1,0 +1,1 @@
+Credits to https://github.com/jonascript/feathers-airtable for some of the stuff I stole

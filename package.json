@@ -1,0 +1,26 @@
+{
+	"name": "feathersjs-airtable-ts",
+	"version": "1.0.0",
+	"author": "Ícaro C. Capobianco",
+	"license": "MIT",
+	"main": "es5/index.js",
+	"types": "types/index.d.ts",
+	"module": "es6/index.js",
+	"source": "src/index.ts",
+	"require": "es5/index.js",
+	"import": "es6/index.js",
+	"scripts": {
+		"watch-es5": "tsc -p tsconfig.json --target es5 --outDir es5 --module commonjs --watch --declaration false",
+		"watch-es6": "tsc -p tsconfig.json --target es6 --outDir es6 --module es6 --watch --declaration false",
+		"watch-types": "tsc -p tsconfig.json --watch --declarationDir types --emitDeclarationOnly",
+		"watch": "concurrently -n w: npm:watch-*"
+	},
+	"devDependencies": {
+		"concurrently": "^6.1.0",
+		"typescript": "^4.2.4"
+	},
+	"dependencies": {
+		"@feathersjs/feathers": "^4.5.11",
+		"airtable": "^0.11.1"
+	}
+}
