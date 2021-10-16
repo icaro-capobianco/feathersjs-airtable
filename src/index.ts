@@ -5,11 +5,10 @@ import {
 	NullableId
 } from '@feathersjs/feathers'
 import Airtable from 'airtable'
-import { QueryParams as AirtableQueryParams } from 'airtable/lib/query_params'
 
-type InferRecordT<R> = R extends Airtable.Record<infer T> ? T : never
+export type InferRecordT<R> = R extends Airtable.Record<infer T> ? T : never
 
-const valueStr = (value: any) => {
+export const valueStr = (value: any) => {
 	const type = typeof value
 	switch (type) {
 		case 'number':
@@ -28,7 +27,7 @@ export const mapRecord = <R extends Airtable.Record<any>>(
 	...rec.fields
 })
 
-const feathersQueryToSelectOptions = (query: Query) => {
+export const feathersQueryToSelectOptions = (query: Query) => {
 	const selectOptions: Airtable.SelectOptions<any> = {}
 	const { $limit, $sort, $select, $skip } = query
 
@@ -190,23 +189,18 @@ export const mapQuery = (queryParams?: any): string => {
 	return condtionals.join('')
 }
 
-export default class AirtableService<
+export class AirtableService<
 	D extends Airtable.FieldSet,
 	T extends D & { id: string } = D & { id: string },
 	Table extends Airtable.Table<T> = Airtable.Table<T>,
-	QueryParams extends AirtableQueryParams<T> = AirtableQueryParams<T>,
 	Params extends FeathersParams = FeathersParams
 > implements ServiceMethods<T> {
 	table: Table
 
 	constructor(
-		apiKey: string,
-		baseId: string,
-		tableName: string,
-		options?: Airtable.AirtableOptions
+		table : Table
 	) {
-		const airtable = new Airtable({ apiKey, ...options })
-		this.table = airtable.base(baseId).table(tableName) as Table
+		this.table = table
 	}
 
 	async find(params: Params) {
@@ -291,5 +285,14 @@ export default class AirtableService<
 					)
 				)
 		}
+	}
+}
+
+export default ( apiKey : string, options : Airtable.AirtableOptions = {} ) => {
+	const airtable = new Airtable({ apiKey, ...options })
+	const service = <T extends Airtable.FieldSet>( baseId : string, tableName : string ) => new AirtableService<T>( airtable.base(baseId).table(tableName) )
+	return {
+		airtable,
+		service
 	}
 }
