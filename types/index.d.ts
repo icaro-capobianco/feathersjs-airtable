@@ -13,6 +13,7 @@ export declare class AirtableService<D extends Airtable.FieldSet, T extends D & 
 } = D & {
     id: string;
 }, Table extends Airtable.Table<T> = Airtable.Table<T>, Params extends FeathersParams = FeathersParams> implements ServiceMethods<T> {
+    id: string;
     table: Table;
     constructor(table: Table);
     find(params: Params): Promise<(T & {

@@ -195,6 +195,8 @@ export class AirtableService<
 	Table extends Airtable.Table<T> = Airtable.Table<T>,
 	Params extends FeathersParams = FeathersParams
 > implements ServiceMethods<T> {
+
+	id = 'id'
 	table: Table
 
 	constructor(
