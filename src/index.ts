@@ -239,7 +239,7 @@ export class AirtableService<
 			return this.table.update(id, data).then(mapRecord)
 		} else {
 			return this.table
-				.select(params.query)
+				.select(feathersQueryToSelectOptions(params.query ?? {}))
 				.all()
 				.then(arr =>
 					this.table
@@ -258,7 +258,7 @@ export class AirtableService<
 			return this.table.update(id, data).then(mapRecord)
 		} else {
 			return this.table
-				.select(params.query)
+				.select(feathersQueryToSelectOptions(params.query ?? {}))
 				.all()
 				.then(arr =>
 					this.table
@@ -277,7 +277,7 @@ export class AirtableService<
 			return this.table.destroy(id).then(mapRecord)
 		} else {
 			return this.table
-				.select(params.query)
+				.select(feathersQueryToSelectOptions(params.query ?? {}))
 				.all()
 				.then(arr =>
 					Promise.all(
